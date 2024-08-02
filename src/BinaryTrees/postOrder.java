@@ -1,8 +1,6 @@
 package BinaryTrees;
 import java.util.*;
 
-import BinaryTrees.preOrder.Node;
-
 public class postOrder {
 
 	static class Node {
