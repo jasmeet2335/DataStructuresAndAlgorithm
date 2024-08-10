@@ -21,6 +21,7 @@ public class wordBreakProblem {
             }
         }
     }
+    
     public static Node root = new Node();
      
     public static void insert(String word) { //O(L)
