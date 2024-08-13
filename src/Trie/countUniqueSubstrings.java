@@ -20,7 +20,20 @@ public class countUniqueSubstrings {
      *     - unique prefix
      *     - unique substrings 
      */
+
+     static class Node {
+        Node[] children = new Node[26];
+        boolean eow = false; 
+
+        for(int i =0; i<children.length; i++) {
+
+        }
+     }
+    public static int countNodes() {
+        return 0;
+    }
     public static void main(String args[]){
+
 
     }
 }
