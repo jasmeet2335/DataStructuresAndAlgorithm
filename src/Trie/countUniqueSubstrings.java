@@ -23,10 +23,10 @@ public class countUniqueSubstrings {
 
      static class Node {
         Node[] children = new Node[26];
-        boolean eow = false; 
+        // boolean eow = false; 
 
         for(int i =0; i<children.length; i++) {
-
+            
         }
      }
     public static int countNodes() {
