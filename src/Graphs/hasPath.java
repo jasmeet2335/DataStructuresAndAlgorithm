@@ -1,32 +1,27 @@
 package Graphs;
 import java.util.*;
 
-public class bfs {
+public class hasPath {
     /*
-     * BFS - Breadth First Search
-     * DFS - Depth First Search 
+     * For given src and dest, tell if a path exists from src to dest
+     * The path can not exist in a disjoint path
      */
-
-     // Go to immediate neighbors first 
-     // This is very similar to the level Order Traversal and we use queue to perform this action
 
      static class Edge {
         int src;
         int dest;
         int wt;
 
-        public Edge(int s, int d, int w){
-            this.src= s;
+        public Edge(int s, int d, int w) {
+            this.src = s;
             this.dest = d;
             this.wt = w;
         }
      }
 
-     // length isa property of an array 
-     // size() is a property of an arrayList
-     static void createGraph(ArrayList<Edge> graph[]) {
-        for(int i=0; i< graph.length; i++){
-            graph[i] = new ArrayList<>(); 
+     static void createGraph(ArrayList<Edge> graph[]){
+        for(int i = 0; i<graph.length; i++){
+            graph[i] = new ArrayList<>();
         }
 
         // 0 - vertex
@@ -60,26 +55,20 @@ public class bfs {
         graph[6].add(new Edge(6, 5, 1));
      }
 
-     public static void bfs(ArrayList<Edge> graph[]){ // O(V+E)
-        Queue<Integer> q = new LinkedList<>();
-        boolean vis[] = new boolean[graph.length];
-
-        q.add(0); // src = 0;
-        while(!q.isEmpty()){
-            int curr = q.remove();
-
-            if(!vis[curr]){ // visit curr 
-                System.out.print(curr + " ");
-                vis[curr] = true;
-                for(int i = 0; i<graph[curr].size(); i ++) {
-                    Edge e = graph[curr].get(i);
-                    q.add(e.dest);
-                }
-
+     public static boolean hasPath(ArrayList<Edge> graph[], int src, int dest, boolean vis[]) { // O(V+E)
+        if(src == dest) {
+            return true;
+        }
+        vis[src] = true; 
+        for(int i = 0; i <graph[src].size(); i++) {
+            Edge e = graph[src].get(i);
+            if(!vis[e.dest] && hasPath(graph, e.dest, dest, vis)) {
+                return true;
             }
         }
-
+        return false;
      }
+
      public static void main(String args[]){
         /*
          *      1-----3
@@ -92,7 +81,6 @@ public class bfs {
          int V = 7;
          ArrayList<Edge> graph[] = new ArrayList[V];
          createGraph(graph);
-        bfs(graph);
-        
+        System.out.println(hasPath(graph, 0, 7, new boolean[V]));
      }
 }

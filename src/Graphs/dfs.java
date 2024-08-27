@@ -1,32 +1,26 @@
 package Graphs;
 import java.util.*;
 
-public class bfs {
+public class dfs {
     /*
-     * BFS - Breadth First Search
-     * DFS - Depth First Search 
-     */
-
-     // Go to immediate neighbors first 
-     // This is very similar to the level Order Traversal and we use queue to perform this action
+    * Keep going to the 1st neighbor 
+    */
 
      static class Edge {
         int src;
         int dest;
         int wt;
 
-        public Edge(int s, int d, int w){
-            this.src= s;
+        public Edge(int s, int d, int w) {
+            this.src = s;
             this.dest = d;
             this.wt = w;
         }
      }
 
-     // length isa property of an array 
-     // size() is a property of an arrayList
-     static void createGraph(ArrayList<Edge> graph[]) {
-        for(int i=0; i< graph.length; i++){
-            graph[i] = new ArrayList<>(); 
+     static void createGraph(ArrayList<Edge> graph[]){
+        for(int i = 0; i<graph.length; i++){
+            graph[i] = new ArrayList<>();
         }
 
         // 0 - vertex
@@ -60,27 +54,24 @@ public class bfs {
         graph[6].add(new Edge(6, 5, 1));
      }
 
-     public static void bfs(ArrayList<Edge> graph[]){ // O(V+E)
-        Queue<Integer> q = new LinkedList<>();
-        boolean vis[] = new boolean[graph.length];
+     static void dfs(ArrayList<Edge> graph[], int curr,  boolean vis[]){
+        /*
+         * Recurssion 
+         * curr -> visit
+         * for(int i = 0 to k) if(!vis[curr]) dfs(i)
+         */
+        System.out.print(curr + " ");
+        vis[curr] = true;
 
-        q.add(0); // src = 0;
-        while(!q.isEmpty()){
-            int curr = q.remove();
-
-            if(!vis[curr]){ // visit curr 
-                System.out.print(curr + " ");
-                vis[curr] = true;
-                for(int i = 0; i<graph[curr].size(); i ++) {
-                    Edge e = graph[curr].get(i);
-                    q.add(e.dest);
-                }
-
+        for(int i = 0; i <graph[curr].size(); i ++){
+            Edge e = graph[curr].get(i);
+            if(!vis[e.dest]){
+                dfs(graph, e.dest, vis);
             }
         }
-
      }
-     public static void main(String args[]){
+
+    public static void main(String args[]){
         /*
          *      1-----3
          *     /      | \
@@ -92,7 +83,7 @@ public class bfs {
          int V = 7;
          ArrayList<Edge> graph[] = new ArrayList[V];
          createGraph(graph);
-        bfs(graph);
-        
-     }
+
+         dfs(graph, 0, new boolean[V]);
+    }
 }
