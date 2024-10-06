@@ -71,6 +71,26 @@ public class LinkedList {
     }
 
 
+    public int Iterativesearch(int key) { // o(n)
+        Node temp = head;
+        int i = 0;
+        while(temp != null){
+            if(temp.data == key) {
+                return i;
+            }
+            temp = temp.next;
+            i++;
+        }
+        return -1;
+    }
+    public int recSearchHelper(Node head, int key){
+        if(head == null){
+            
+        }
+    }
+    public int recSearch(int key){
+        return recSearchHelper(head, key);
+    }
 
     public static void main(String args[]){ 
         LinkedList ll = new LinkedList();
@@ -81,6 +101,8 @@ public class LinkedList {
         ll.add(2, 9);
         ll.print();
         System.out.println("The size of LL is : " + ll.size);
+        System.out.println(ll.Iterativesearch(3));
+        System.out.println(ll.Iterativesearch(10));
     }
 
     /*

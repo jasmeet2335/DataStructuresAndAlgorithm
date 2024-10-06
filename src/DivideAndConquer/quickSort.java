@@ -19,20 +19,29 @@ public class quickSort {
         quickSort(arr, pidx+1, ei); // left part
     }
 
-    public static void partition(int arr[], int si, int ei){
+    public static int partition(int arr[], int si, int ei){
         int pivot = arr[ei];
         int i = si-1; // to make space for elements smaller that the pivot
 
-        for(int j = 0; j <ei; j++){
+        for(int j = si; j <ei; j++){
             if(arr[j] <= pivot ){
-                i
+                i++;
+                int temp = arr[j];
+                arr[j] = arr[i];
+                arr[i] = temp;
             }
         }
-// ==================================================================CONTINUE FROM 3 MINS
+
+        i++;
+        int temp = pivot;
+        arr[ei] = arr[i];
+        arr[i] = temp;
+        return i;
     }
     public static void main(String args[]){
         int arr[] = {6, 3, 9, 8, 2, 5};
         quickSort(arr, 0, arr.length-1);
+        printArr(arr);
     }
 }
 /*
@@ -45,4 +54,7 @@ public class quickSort {
  * partition - parts. 
  * quicksort(left) // calling the functions recursively
  * quicksort(right)
+ * 
+ * We get the worst case when the array is either sorted in ascending or descending order
+ * which is when pivot is always the smallest or the largest element. 
  */
