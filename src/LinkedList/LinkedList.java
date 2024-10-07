@@ -209,6 +209,48 @@ public class LinkedList {
 
       }
 
+      // Remove first in Linked list code 
+      public int removeFirst() {
+        if(size == 0){
+            System.out.println("LL is empty");
+            return Integer.MIN_VALUE;
+        }else if(size == 1) {
+            int value = head.data;
+            head = tail = null;
+            size = 0;
+            return value;
+        }
+
+        int value = head.data;
+        head = head.next;
+        size --;
+        return value;
+      }
+
+      // Remove last in a linked list 
+      public int removeLast(){
+        if(size == 0) {
+            System.out.println("Linked list is empty");
+            return Integer.MIN_VALUE;
+        } else if(size ==1) {
+            int value = head.data;
+            head = tail = null;
+            size = 0;
+            return value;
+        }
+        
+        Node prev = head;
+        for(int i = 0; i <size-2; i ++){
+            prev = prev.next;
+        }
+
+        int value = prev.next.data;
+        prev.next = null;
+        tail = prev;
+        size--;
+        return value;
+
+      }
 
     public static void main(String args[]){ 
         LinkedList ll = new LinkedList();
