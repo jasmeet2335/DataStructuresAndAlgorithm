@@ -252,21 +252,217 @@ public class LinkedList {
 
       }
 
+      // Detecting cycle in a Linked List - Floyd's Cycle Finding Algorithm 
+      public static boolean isCycle(){
+        Node slow = head;
+        Node fast = head;
+        while(fast != null && fast.next != null){
+            slow = slow.next;
+            fast = fast.next.next;
+            if(slow == fast){
+                return true;                
+            }
+        }
+        return false;
+      }
+
+      // Remove a loop/Cycle in a Linked List
+      /*
+        Find the last node
+        LastNode.next = null
+
+        The approach will be: to detect the cycle -> slow = head -> slow +1, fast +1
+        This code will not work if we have a corner case where we have a full cycle
+       */ 
+      public static void removeCycle(){
+        //detect cycle
+        Node slow = head;
+        Node fast = head;
+        boolean cycle = false;
+        while(fast != null && fast.next != null){
+            slow = slow.next;
+            fast = fast.next.next;
+            if(fast == slow){
+                cycle = true;
+                break;
+            }
+        }
+
+        if(cycle == false) {
+            return;
+        }
+
+        //find meeting point 
+        slow = head;
+        Node prev = null;
+        while(slow != fast){
+            prev = fast;
+            slow = slow.next;
+            fast = fast.next;
+        }
+
+        //remove cycle-> last.next = null
+        prev.next = null;
+      }
+
+      //merge sort on a linked list o(n logn)
+      /*
+       * Find the middle of the linked list
+       *    
+       * Divide into left half and right half by mid.next = null
+       * merge the two parts 
+       */
+
+       private Node getMid(Node head){
+        Node slow = head;
+        Node fast = head.next;
+
+        while(fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        return slow;
+       }
+
+       private Node merge(Node head1, Node head2){
+        Node mergedLL = new Node(-1);
+        Node temp = mergedLL;
+        while(head1 != null && head2 != null) {
+            if(head1.data <= head2.data){
+                temp.next = head1;
+                head1 = head1.next;
+                temp = temp.next;
+            } else {
+                temp.next = head2;
+                head2 = head2.next;
+                temp = temp.next;
+            }
+        }
+        while(head1 != null){
+            temp.next = head1;
+                head1 = head1.next;
+                temp = temp.next;
+        }
+        while(head2 != null){
+            temp.next = head2;
+            head2 = head2.next;
+            temp = temp.next;
+        }
+
+        return mergedLL.next;
+       }
+
+
+      public Node mergeSort(Node head){
+        if(head == null || head.next == null){
+            return head;
+        }
+        // find mid
+        Node mid = getMid(head);
+
+        // left and right MS
+        Node rightHead = mid.next;
+        mid.next = null;
+        Node newLeft = mergeSort(head);
+        Node newRight = mergeSort(rightHead);
+
+        //merge
+        return merge(newLeft, newRight);
+      }
+
+
+      // Zig Zag Linked List
+      /*
+       * For a linked list of the form 1 -> 2 -> 3-> 4 -> ...... n-1 -> n
+       * convert it into a zig zag form that is 1 -> n -> 2 -> n-2 -> 3 ....
+       * 
+       * find midNode ( mid = 1st half last node)
+       * 
+       */
+ 
+      public void zigzag() {
+        //find midlle
+        Node slow = head;
+        Node fast = head.next;
+
+        while(fast != null && fast.next != null){
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+         Node mid = slow;
+
+        // reverse second half
+        Node curr = mid.next;
+        mid.next = null;
+        Node prev = null;
+        Node next;
+
+        while(curr != null ){
+            next = curr.next;
+            curr.next  = prev;
+            prev = curr;
+            curr = next;
+        }
+
+        Node left = head;
+        Node right = prev;
+        Node nextL, nextR;
+
+        // alternate merge
+        while(left != null && right != null) {
+            nextL = left.next;
+            left.next = right;
+            nextR = right.next;
+            right.next = nextL;
+
+            left = nextL;
+            right = nextR;
+        } 
+      }
+
+
+      // Doubly Linked List
+      
     public static void main(String args[]){ 
         LinkedList ll = new LinkedList();
-        ll.addFirst(2);
+        // ll.addFirst(2);
+        // ll.addFirst(1);
+        // ll.addLast(2);
+        // ll.addLast(1);
+        // ll.add(2, 9);
+        // ll.print();
+        // System.out.println("The size of LL is : " + ll.size);
+        // System.out.println(ll.recSearch(3));
+        // System.out.println(ll.recSearch(10));
+        // ll.reverse();
+        // ll.deleteNthFromEnd(3);
+        // ll.print();
+        // System.out.println(ll.checkPalindrome());
+
+        // head = new Node(1);
+        // Node temp = new Node(2);
+        // head.next = temp;
+        // head.next.next = new Node(3);
+        // head.next.next.next = temp;       
+        // System.out.println(isCycle());
+        // removeCycle();
+        // System.out.println(isCycle());
+        
         ll.addFirst(1);
-        ll.addLast(2);
-        ll.addLast(1);
-        ll.add(2, 9);
-        ll.print();
-        System.out.println("The size of LL is : " + ll.size);
-        System.out.println(ll.recSearch(3));
-        System.out.println(ll.recSearch(10));
-        ll.reverse();
-        ll.deleteNthFromEnd(3);
-        ll.print();
-        System.out.println(ll.checkPalindrome());
+        ll.addFirst(2);
+        ll.addFirst(3);
+        ll.addFirst(4);
+        ll.addFirst(5);
+        ll.addFirst(6);
+        ll.head = ll.mergeSort(ll.head);  
+        ll.print();  
+        ll.zigzag();
+        ll.print();  
+
+
+
+
+
 
     }
 
@@ -285,4 +481,15 @@ public class LinkedList {
      * Find and remove nth node from end
      * check if LL is Palindrome 
      */
+
+     /*
+      * LL Part 2
+      Detecting Cycle in LL
+      Removing Cycle in LL
+      Merge Sort On lL
+      Zig Zag LL
+      Doubly LL
+      Reverse a Doubly LL
+      Circular LL
+      */
 }
